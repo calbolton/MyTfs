@@ -8,6 +8,20 @@ import java.util.Map;
 
 public class Fields {
 
+    public static final String WIT_PRODUCTBACKLOGITEM = "Product Backlog Item";
+    public static final String WIT_TASK = "Task";
+
+    public static final String STATUS_PBI_APPROVED = "Approved";
+    public static final String STATUS_PBI_COMMITTED = "Committed";
+    public static final String STATUS_PBI_NEW = "New";
+    public static final String STATUS_PBI_REMOVED = "Removed";
+    public static final String STATUS_PBI_DONE = "Done";
+
+    public static final String STATUS_TASK_INPROGRESS = "In Progress";
+    public static final String STATUS_TASK_TODO = "To Do";
+    public static final String STATUS_TASK_REMOVED = "Removed";
+    public static final String STATUS_TASK_DONE = "Done";
+
     @SerializedName("System.AreaPath")
     @Expose
     private String SystemAreaPath;

@@ -1,13 +1,14 @@
-package com.x8.mobile.mytfs.Tfs.Query;
+package com.x8.mobile.mytfs.Tfs.Api.Responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.x8.mobile.mytfs.Tfs.Models.FieldReference;
 
 public class SortColumn {
 
     @SerializedName("field")
     @Expose
-    private Field field;
+    private FieldReference field;
     @SerializedName("descending")
     @Expose
     private Boolean descending;
@@ -17,7 +18,7 @@ public class SortColumn {
      * @return
      * The field
      */
-    public Field getField() {
+    public FieldReference getField() {
         return field;
     }
 
@@ -26,7 +27,7 @@ public class SortColumn {
      * @param field
      * The field
      */
-    public void setField(Field field) {
+    public void setField(FieldReference field) {
         this.field = field;
     }
 

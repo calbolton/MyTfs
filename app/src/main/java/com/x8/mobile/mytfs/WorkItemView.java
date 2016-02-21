@@ -1,4 +1,4 @@
-package com.x8.mobile.mytfs.Tfs;
+package com.x8.mobile.mytfs;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

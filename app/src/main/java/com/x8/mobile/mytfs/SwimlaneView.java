@@ -1,14 +1,8 @@
 package com.x8.mobile.mytfs;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
-import com.x8.mobile.mytfs.Tfs.WorkItemView;
 
 /**
  * Created by calbo_000 on 2/15/2016.

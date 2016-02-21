@@ -1,12 +1,16 @@
-package com.x8.mobile.mytfs.Tfs.WorkItems;
+package com.x8.mobile.mytfs.Tfs.Api.Responses;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.x8.mobile.mytfs.Tfs.Models.WorkItem;
 
-public class WorkItemResult {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by calbo_000 on 2/21/2016.
+ */
+public class GetWorkItemsResponse {
 
     @SerializedName("count")
     @Expose

@@ -84,7 +84,7 @@
         <!--android:layout_width="0dp"-->
         <!--android:layout_weight="1"-->
         <!--android:layout_height="match_parent">-->
-    <!--<com.x8.mobile.mytfs.Tfs.WorkItemView-->
+    <!--<com.x8.mobile.mytfs.WorkItemView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
     <!--</com.x8.mobile.mytfs.SwimlaneView>-->
@@ -128,18 +128,57 @@
 
 
     </LinearLayout>
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/etResult"
+        android:text="Hello" />
     <LinearLayout
-        android:id="@+id/testBoard"
+        android:id="@+id/lin_board"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/etResult"
-            android:text="Hello" />
+        android:layout_height="wrap_content">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ls_todo"
+            android:layout_gravity="center_horizontal" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:id="@+id/ls_inProgress"
+            android:layout_gravity="center_horizontal" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:id="@+id/ls_done"
+            android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
+
+
+
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/testBoard"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<EditText-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:inputType="textMultiLine"-->
+            <!--android:ems="10"-->
+            <!--android:id="@+id/etResult"-->
+            <!--android:text="Hello" />-->
+    <!--</LinearLayout>-->
 </LinearLayout>

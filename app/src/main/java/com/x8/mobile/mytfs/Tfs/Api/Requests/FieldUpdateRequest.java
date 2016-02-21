@@ -1,4 +1,4 @@
-package com.x8.mobile.mytfs.Tfs.Requests;
+package com.x8.mobile.mytfs.Tfs.Api.Requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

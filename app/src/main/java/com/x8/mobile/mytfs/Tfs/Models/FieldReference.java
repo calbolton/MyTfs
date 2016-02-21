@@ -1,10 +1,12 @@
-package com.x8.mobile.mytfs.Tfs.Query;
+package com.x8.mobile.mytfs.Tfs.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Column {
-
+/**
+ * Created by calbo_000 on 2/21/2016.
+ */
+public class FieldReference {
     @SerializedName("referenceName")
     @Expose
     private String referenceName;
@@ -68,5 +70,4 @@ public class Column {
     public void setUrl(String url) {
         this.url = url;
     }
-
 }

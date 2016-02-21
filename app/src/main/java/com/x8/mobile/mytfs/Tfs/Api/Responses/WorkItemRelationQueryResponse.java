@@ -1,13 +1,14 @@
-package com.x8.mobile.mytfs.Tfs.Query;
+package com.x8.mobile.mytfs.Tfs.Api.Responses;
 
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.x8.mobile.mytfs.Tfs.Models.FieldReference;
 import com.x8.mobile.mytfs.Tfs.Models.WorkItem;
-import com.x8.mobile.mytfs.Tfs.WorkItems.WorkItemRelation;
+import com.x8.mobile.mytfs.Tfs.Models.WorkItemRelation;
 
-public class QueryRelationResult {
+public class WorkItemRelationQueryResponse {
 
     @SerializedName("queryType")
     @Expose
@@ -20,7 +21,7 @@ public class QueryRelationResult {
     private String asOf;
     @SerializedName("columns")
     @Expose
-    private List<Column> columns = new ArrayList<>();
+    private List<FieldReference> columns = new ArrayList<>();
     @SerializedName("sortColumns")
     @Expose
     private List<SortColumn> sortColumns = new ArrayList<>();
@@ -87,7 +88,7 @@ public class QueryRelationResult {
      * @return
      * The columns
      */
-    public List<Column> getColumns() {
+    public List<FieldReference> getColumns() {
         return columns;
     }
 
@@ -96,7 +97,7 @@ public class QueryRelationResult {
      * @param columns
      * The columns
      */
-    public void setColumns(List<Column> columns) {
+    public void setColumns(List<FieldReference> columns) {
         this.columns = columns;
     }
 

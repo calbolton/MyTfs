@@ -1,12 +1,12 @@
-package com.x8.mobile.mytfs.Tfs;
+package com.x8.mobile.mytfs.Tfs.Api;
 
+import com.x8.mobile.mytfs.Tfs.Api.Requests.WorkItemQueryRequest;
 import com.x8.mobile.mytfs.Tfs.Api.Responses.GetCurrentSprintResponse;
-import com.x8.mobile.mytfs.Tfs.Query.QueryRelationResult;
-import com.x8.mobile.mytfs.Tfs.Query.WorkItemQuery;
-import com.x8.mobile.mytfs.Tfs.Query.WorkItemQueryResult;
-import com.x8.mobile.mytfs.Tfs.Requests.FieldUpdateRequest;
+import com.x8.mobile.mytfs.Tfs.Api.Responses.GetWorkItemsResponse;
+import com.x8.mobile.mytfs.Tfs.Api.Responses.WorkItemQueryResponse;
+import com.x8.mobile.mytfs.Tfs.Api.Responses.WorkItemRelationQueryResponse;
+import com.x8.mobile.mytfs.Tfs.Api.Requests.FieldUpdateRequest;
 import com.x8.mobile.mytfs.Tfs.Models.WorkItem;
-import com.x8.mobile.mytfs.Tfs.WorkItems.WorkItemResult;
 
 import java.util.ArrayList;
 
@@ -32,30 +32,21 @@ public interface ITfsApi {
             "Authorization: Basic Q2FsQm9sdG9uOkNAMTF1bUIwbHQwbg=="
     })
     @POST("DefaultCollection/Life/_apis/wit/wiql?api-version=1.0")
-    Call<WorkItemQueryResult> queryWorkItems(@Body WorkItemQuery query);
+    Call<WorkItemQueryResponse> queryWorkItems(@Body WorkItemQueryRequest query);
 
-
+    @Headers({
+            "Accept: application/json",
+            "Authorization: Basic Q2FsQm9sdG9uOkNAMTF1bUIwbHQwbg=="
+    })
+    @POST("DefaultCollection/Life/_apis/wit/wiql?api-version=1.0")
+    Call<WorkItemRelationQueryResponse> queryWorkItemRelations(@Body WorkItemQueryRequest query);
 
     @Headers({
             "Accept: application/json",
             "Authorization: Basic Q2FsQm9sdG9uOkNAMTF1bUIwbHQwbg=="
     })
     @GET("defaultcollection/_apis/wit/workitems?api-version=1.0")
-    Call<WorkItemResult> getWorkItems(@Query("ids") String ids);
-
-    @Headers({
-            "Accept: application/json",
-            "Authorization: Basic Q2FsQm9sdG9uOkNAMTF1bUIwbHQwbg=="
-    })
-    @POST("DefaultCollection/Life/_apis/wit/wiql?api-version=1.0")
-    Call<WorkItemQueryResult> getItemsInIteration(@Body WorkItemQuery query);
-
-    @Headers({
-            "Accept: application/json",
-            "Authorization: Basic Q2FsQm9sdG9uOkNAMTF1bUIwbHQwbg=="
-    })
-    @POST("DefaultCollection/Life/_apis/wit/wiql?api-version=1.0")
-    Call<QueryRelationResult> getItemsInIterationWithRelations(@Body WorkItemQuery query);
+    Call<GetWorkItemsResponse> getWorkItems(@Query("ids") String ids);
 
     @Headers({
             "Accept: application/json",
@@ -64,4 +55,5 @@ public interface ITfsApi {
     })
     @PATCH("DefaultCollection/_apis/wit/workitems/{workItemId}?api-version=1.0")
     Call<WorkItem> updateWorkItem(@Path("workItemId") int workItemId, @Body ArrayList<FieldUpdateRequest> fieldsToUpdate);
+
 }

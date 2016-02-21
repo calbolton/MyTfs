@@ -22,13 +22,13 @@ public class WorkItem {
     @Expose
     private String url;
 
-    private List<WorkItem> workItems;
+    private ArrayList<WorkItem> workItems;
 
-    public List<WorkItem> getWorkItems(){
+    public ArrayList<WorkItem> getWorkItems(){
         return workItems;
     }
 
-    public void setWorkItems(List<WorkItem> workItems){
+    public void setWorkItems(ArrayList<WorkItem> workItems){
         this.workItems = workItems;
     }
 
@@ -43,6 +43,45 @@ public class WorkItem {
         this.workItems.add(workItem);
     }
 
+    public boolean moveToNextState(){
+        if (getFields().getSystemWorkItemType().equals(Fields.WIT_TASK)){
+            if (getFields().getSystemState().equals(Fields.STATUS_TASK_TODO)){
+                getFields().setSystemState(Fields.STATUS_TASK_INPROGRESS);
+                return true;
+            }else if (getFields().getSystemState().equals(Fields.STATUS_TASK_INPROGRESS)){
+                getFields().setSystemState(Fields.STATUS_TASK_DONE);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean moveToPreviousState(){
+        if (getFields().getSystemWorkItemType().equals(Fields.WIT_TASK)){
+            if (getFields().getSystemState().equals(Fields.STATUS_TASK_INPROGRESS)){
+                getFields().setSystemState(Fields.STATUS_TASK_TODO);
+                return true;
+            }else if (getFields().getSystemState().equals(Fields.STATUS_TASK_DONE)){
+                getFields().setSystemState(Fields.STATUS_TASK_INPROGRESS);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isToDo(){
+        return getFields().getSystemState().equals(Fields.STATUS_TASK_TODO);
+    }
+
+    public boolean isInProgress(){
+        return getFields().getSystemState().equals(Fields.STATUS_TASK_INPROGRESS);
+    }
+
+    public boolean isDone(){
+        return getFields().getSystemState().equals(Fields.STATUS_TASK_DONE);
+    }
 
     /**
      *

@@ -1,9 +1,9 @@
-package com.x8.mobile.mytfs.Tfs.Query;
+package com.x8.mobile.mytfs.Tfs.Api.Requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WorkItemQuery {
+public class WorkItemQueryRequest {
 
     @SerializedName("query")
     @Expose

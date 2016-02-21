@@ -1,15 +1,15 @@
 package com.x8.mobile.mytfs.Tfs;
 
+import com.x8.mobile.mytfs.Tfs.Api.ITfsApi;
+import com.x8.mobile.mytfs.Tfs.Api.Requests.WorkItemQueryRequest;
 import com.x8.mobile.mytfs.Tfs.Api.Responses.GetCurrentSprintResponse;
+import com.x8.mobile.mytfs.Tfs.Api.Responses.GetWorkItemsResponse;
+import com.x8.mobile.mytfs.Tfs.Api.Responses.WorkItemRelationQueryResponse;
 import com.x8.mobile.mytfs.Tfs.Models.Iteration;
-import com.x8.mobile.mytfs.Tfs.Query.QueryRelationResult;
-import com.x8.mobile.mytfs.Tfs.Query.WorkItemQuery;
-import com.x8.mobile.mytfs.Tfs.Query.WorkItemQueryResult;
-import com.x8.mobile.mytfs.Tfs.Requests.FieldUpdateRequest;
+import com.x8.mobile.mytfs.Tfs.Api.Requests.FieldUpdateRequest;
 import com.x8.mobile.mytfs.Tfs.Models.WorkItem;
-import com.x8.mobile.mytfs.Tfs.WorkItems.WorkItemResult;
-
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import retrofit.Call;
@@ -66,31 +66,94 @@ public class TfsService implements ITfsService {
     }
 
     @Override
-    public void getWorkItemsAsync(String ids, Callback<WorkItemResult> callback) {
+    public void getWorkItemsAsync(String ids, final Callback<List<WorkItem>> callback) {
         final ITfsApi tfsService = _retrofit.create(ITfsApi.class);
 
-        Call<WorkItemResult> call = tfsService.getWorkItems(ids);
+        Call<GetWorkItemsResponse> call = tfsService.getWorkItems(ids);
 
-        call.enqueue(callback);
+        call.enqueue(new Callback<GetWorkItemsResponse>() {
+            @Override
+            public void onResponse(Response<GetWorkItemsResponse> response, Retrofit retrofit) {
+                if (!response.isSuccess()){
+                    callback.onFailure(new Exception("Error getting work items"));
+                    return;
+                }
+
+                callback.onResponse(Response.success(response.body().getValue()), _retrofit);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
     @Override
-    public void getItemsInIterationAsync(WorkItemQuery query, Callback<WorkItemQueryResult> callback) {
+    public void getWorkItemsInIterationAsync(String iteration, Callback<ArrayList<WorkItem>> callback) {
 
     }
 
     @Override
-    public void getItemsInIterationWithRelationsAsync(WorkItemQuery query, Callback<QueryRelationResult> callback) {
+    public void getWorkItemsInIterationWithRelationsAsync(String iteration, final Callback<ArrayList<WorkItem>> callback) {
 
         final ITfsApi tfsService = _retrofit.create(ITfsApi.class);
 
-        Call<QueryRelationResult> workItemLinkscall = tfsService.getItemsInIterationWithRelations(query);
+        WorkItemQueryRequest query = new WorkItemQueryRequest();
+        query.setQuery(WorkItemQueryRequest.getWorkItemLinksInIteration(iteration));
 
-        workItemLinkscall.enqueue(callback);
+        Call<WorkItemRelationQueryResponse> workItemLinkscall = tfsService.queryWorkItemRelations(query);
+
+
+
+        workItemLinkscall.enqueue(new Callback<WorkItemRelationQueryResponse>() {
+            @Override
+            public void onResponse(Response<WorkItemRelationQueryResponse> response, Retrofit retrofit) {
+                if (!response.isSuccess()) {
+                    callback.onFailure(new Exception("Error getting work item links"));
+                    return;
+                }
+
+                final WorkItemRelationQueryResponse queryResult = response.body();
+
+                String workItemString = queryResult.getWorkItemString();
+
+                getWorkItemsAsync(workItemString, new Callback<List<WorkItem>>() {
+                    @Override
+                    public void onResponse(Response<List<WorkItem>> response, Retrofit retrofit) {
+                        if (!response.isSuccess()) {
+                            callback.onFailure(new Exception("Error getting work items in iteration"));
+                            return;
+                        }
+
+                        try {
+                            List<WorkItem> result = response.body();
+
+                            ArrayList<WorkItem> productbacklogItems = queryResult.getProductBacklogItems(result);
+                            callback.onResponse(Response.success(productbacklogItems), _retrofit);
+                        } catch (Exception ex) {
+                            callback.onFailure(ex);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        callback.onFailure(t);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
     @Override
-    public void getCurrentSprintProductBacklogItemHeirarchy(final Callback<ArrayList<WorkItem>> callback) {
+    public void getWorkItemsInCurrentIterationWithRelationsAsync(final Callback<ArrayList<WorkItem>> callback) {
 
         getCurrentIterationAsync(new Callback<Iteration>() {
             @Override
@@ -102,53 +165,7 @@ public class TfsService implements ITfsService {
 
                 Iteration currentSprint = response.body();
 
-                WorkItemQuery query = new WorkItemQuery();
-                query.setQuery(WorkItemQuery.getWorkItemLinksInIteration(currentSprint.getPath()));
-
-                getItemsInIterationWithRelationsAsync(query, new Callback<QueryRelationResult>() {
-                    @Override
-                    public void onResponse(Response<QueryRelationResult> response, Retrofit retrofit) {
-                        if (!response.isSuccess()) {
-                            callback.onFailure(new Exception("Error getting work item links"));
-                            return;
-                        }
-
-                        final QueryRelationResult queryResult = response.body();
-
-                        String workItemString = queryResult.getWorkItemString();
-
-                        getWorkItemsAsync(workItemString, new Callback<WorkItemResult>() {
-                            @Override
-                            public void onResponse(Response<WorkItemResult> response, Retrofit retrofit) {
-                                if (!response.isSuccess()) {
-                                    callback.onFailure(new Exception("Error getting work items in iteration"));
-                                    return;
-                                }
-
-                                try {
-                                    WorkItemResult result = response.body();
-
-                                    ArrayList<WorkItem> productbacklogItems = queryResult.getProductBacklogItems(result.getValue());
-                                    callback.onResponse(Response.success(productbacklogItems), _retrofit);
-                                } catch (Exception ex) {
-                                    callback.onFailure(ex);
-                                }
-
-                            }
-
-                            @Override
-                            public void onFailure(Throwable t) {
-                                callback.onFailure(t);
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        callback.onFailure(t);
-                    }
-                });
+                getWorkItemsInIterationWithRelationsAsync(currentSprint.getPath(), callback);
             }
 
             @Override
