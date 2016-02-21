@@ -1,9 +1,10 @@
-package com.x8.mobile.mytfs.Tfs.WorkItems;
+package com.x8.mobile.mytfs.Tfs.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WorkItem {
@@ -113,6 +114,10 @@ public class WorkItem {
      */
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public HashMap<String, String> getChangedFields(){
+        return fields.getChangedFields();
     }
 
     public String getTitle(){

@@ -1,19 +1,20 @@
-package com.x8.mobile.mytfs.Tfs.CurrentSprint;
+package com.x8.mobile.mytfs.Tfs.Api.Responses;
 
 import java.util.List;
 
 import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.x8.mobile.mytfs.Tfs.Models.Iteration;
 
-public class CurrentSprint {
+public class GetCurrentSprintResponse {
 
     @SerializedName("count")
     @Expose
     private Integer count;
     @SerializedName("value")
     @Expose
-    private List<Value> value = new ArrayList<>();
+    private List<Iteration> value = new ArrayList<>();
 
     /**
      *
@@ -38,7 +39,7 @@ public class CurrentSprint {
      * @return
      * The value
      */
-    public List<Value> getValue() {
+    public List<Iteration> getValue() {
         return value;
     }
 
@@ -47,7 +48,7 @@ public class CurrentSprint {
      * @param value
      * The value
      */
-    public void setValue(List<Value> value) {
+    public void setValue(List<Iteration> value) {
         this.value = value;
     }
 
@@ -60,7 +61,7 @@ public class CurrentSprint {
         return value.get(0).getName();
     }
 
-    public Value getCurrentSprint(){
+    public Iteration getCurrentSprint(){
         if (value.size() == 0){
             return null;
         }

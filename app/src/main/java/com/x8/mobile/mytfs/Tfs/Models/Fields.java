@@ -1,7 +1,10 @@
-package com.x8.mobile.mytfs.Tfs.WorkItems;
+package com.x8.mobile.mytfs.Tfs.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fields {
 
@@ -40,13 +43,20 @@ public class Fields {
     private String SystemTitle;
     @SerializedName("Microsoft.VSTS.Scheduling.RemainingWork")
     @Expose
-    private Integer MicrosoftVSTSSchedulingRemainingWork;
+    private double MicrosoftVSTSSchedulingRemainingWork;
     @SerializedName("Microsoft.VSTS.Common.BacklogPriority")
     @Expose
     private Integer MicrosoftVSTSCommonBacklogPriority;
     @SerializedName("Microsoft.VSTS.Common.Activity")
     @Expose
     private String MicrosoftVSTSCommonActivity;
+
+    public HashMap<String, String> getChangedFields(){
+        HashMap<String, String> fields = new HashMap<String, String>();
+        fields.put("System.State", getSystemState());
+
+        return fields;
+    }
 
     /**
      *
@@ -251,7 +261,7 @@ public class Fields {
      * @return
      * The MicrosoftVSTSSchedulingRemainingWork
      */
-    public Integer getMicrosoftVSTSSchedulingRemainingWork() {
+    public double getMicrosoftVSTSSchedulingRemainingWork() {
         return MicrosoftVSTSSchedulingRemainingWork;
     }
 
@@ -260,7 +270,7 @@ public class Fields {
      * @param MicrosoftVSTSSchedulingRemainingWork
      * The Microsoft.VSTS.Scheduling.RemainingWork
      */
-    public void setMicrosoftVSTSSchedulingRemainingWork(Integer MicrosoftVSTSSchedulingRemainingWork) {
+    public void setMicrosoftVSTSSchedulingRemainingWork(double MicrosoftVSTSSchedulingRemainingWork) {
         this.MicrosoftVSTSSchedulingRemainingWork = MicrosoftVSTSSchedulingRemainingWork;
     }
 

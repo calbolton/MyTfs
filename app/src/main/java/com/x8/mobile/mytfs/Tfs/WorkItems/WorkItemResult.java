@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.x8.mobile.mytfs.Tfs.Models.WorkItem;
 
 public class WorkItemResult {
 

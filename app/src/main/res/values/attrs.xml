@@ -1,3 +1,13 @@
 <resources>
-
+    <drawable name="green">#4044FF56</drawable>
+    <drawable name="blue">#404040ff</drawable>
+    <drawable name="filled_box">#40FF4044</drawable>
+    <declare-styleable name="CustomLayoutLP">
+        <attr name="android:layout_gravity" />
+        <attr name="layout_position">
+            <enum name="middle" value="0" />
+            <enum name="left" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

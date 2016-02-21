@@ -3,7 +3,7 @@ package com.x8.mobile.mytfs.Tfs.Query;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TfsQuery {
+public class WorkItemQuery {
 
     @SerializedName("query")
     @Expose

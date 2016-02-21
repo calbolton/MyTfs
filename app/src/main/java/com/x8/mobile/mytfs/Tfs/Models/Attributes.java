@@ -1,4 +1,4 @@
-package com.x8.mobile.mytfs.Tfs.CurrentSprint;
+package com.x8.mobile.mytfs.Tfs.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
