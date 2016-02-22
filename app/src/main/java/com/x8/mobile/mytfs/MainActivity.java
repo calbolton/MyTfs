@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.facebook.stetho.Stetho;
@@ -59,25 +60,33 @@ public class MainActivity extends Activity {
 
         EditText etResult = (EditText) findViewById(R.id.etResult);
         ViewGroup vg = (ViewGroup)findViewById(R.id.lin_board);
-        WorkItemChangedEventListener listener = new WorkItemChangedEventListener(vg, etResult, _tfsService);
+
+
+        ListView ls_inProgress = (ListView) findViewById( R.id.ls_inProgress);
+        ListView ls_todo = (ListView) findViewById( R.id.ls_todo);
+        ListView ls_done = (ListView) findViewById( R.id.ls_done);
+
+        WorkItemChangedEventListener listener = new WorkItemChangedEventListener(ls_todo, ls_inProgress, ls_done, _todoItems,_inProgressItems, _doneItems, etResult, _tfsService);
 
         // InProgress
-        ListView ls_inProgress = (ListView) findViewById( R.id.ls_inProgress);
         _inProgressAdapter = new RowAdapter(_inProgressItems, this);
         _inProgressAdapter.addListener(listener);
         ls_inProgress.setAdapter(_inProgressAdapter);
 
         // To do
-        ListView ls_todo = (ListView) findViewById( R.id.ls_todo);
+
         _todoAdapter = new RowAdapter(_todoItems, this);
         _todoAdapter.addListener(listener);
         ls_todo.setAdapter(_todoAdapter);
 
         // Done
-        ListView ls_done = (ListView) findViewById( R.id.ls_done);
         _doneAdapter = new RowAdapter(_doneItems, this);
         _doneAdapter.addListener(listener);
         ls_done.setAdapter(_doneAdapter);
+
+//        ListUtils.setDynamicHeight(ls_inProgress);
+//        ListUtils.setDynamicHeight(ls_todo);
+//        ListUtils.setDynamicHeight(ls_done);
     }
 
     @Override
@@ -227,4 +236,27 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
+    }
 }
+
+

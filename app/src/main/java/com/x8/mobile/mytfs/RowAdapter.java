@@ -61,17 +61,25 @@ public class RowAdapter extends BaseAdapter implements ListAdapter {
         listItemText.setText(wi.getId() + ":" + wi.getTitle());
 
         //Handle buttons and add onClickListeners
-        Button deleteBtn = (Button)view.findViewById(R.id.btn_update);
+        Button btn_NextState = (Button)view.findViewById(R.id.btn_nextState);
+        Button btn_PreviousState = (Button)view.findViewById(R.id.btn_previousState);
 
         if (wi.isToDo()){
-            deleteBtn.setText("In Progress");
+            btn_PreviousState.setVisibility(Button.INVISIBLE);
+            btn_NextState.setVisibility(Button.VISIBLE);
+            btn_NextState.setText("In Progress ->");
         }else if (wi.isInProgress()){
-            deleteBtn.setText("Done");
+            btn_PreviousState.setVisibility(Button.VISIBLE);
+            btn_NextState.setVisibility(Button.VISIBLE);
+            btn_NextState.setText("Done ->");
+            btn_PreviousState.setText("<- To Do");
         }else if (wi.isDone()){
-            deleteBtn.setText("In Progress");
+            btn_PreviousState.setVisibility(Button.VISIBLE);
+            btn_NextState.setVisibility(Button.INVISIBLE);
+            btn_PreviousState.setText("<- In Progress");
         }
 
-        deleteBtn.setOnClickListener(new View.OnClickListener(){
+        View.OnClickListener nextListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WorkItem wi = list.get(position);
@@ -81,7 +89,34 @@ public class RowAdapter extends BaseAdapter implements ListAdapter {
                     notifyDataSetChanged();
                 }
             }
-        });
+        };
+
+        View.OnClickListener previousListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkItem wi = list.get(position);
+
+                if (wi.moveToPreviousState()){
+                    _workItemChangedEventSource.fireEvent(wi);
+                    notifyDataSetChanged();
+                }
+            }
+        };
+
+        btn_NextState.setOnClickListener(nextListener);
+        btn_PreviousState.setOnClickListener(previousListener);
+
+//        btn_NextState.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                WorkItem wi = list.get(position);
+//
+//                if (wi.moveToNextState()){
+//                    _workItemChangedEventSource.fireEvent(wi);
+//                    notifyDataSetChanged();
+//                }
+//            }
+//        });
 
         return view;
     }
